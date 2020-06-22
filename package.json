@@ -10,14 +10,10 @@
     "prebuild": "rimraf ./dist && mkdir ./dist",
     "build": "NODE_ENV=production webpack --mode production"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ReadB/maze-game.git"
+  "dependencies": {
+    "jquery": "^3.5.1",
+    "three": "^0.117.1"
   },
-  "bugs": {
-    "url": "https://github.com/ReadB/maze-game/issues"
-  },
-  "homepage": "https://github.com/ReadB/maze-game#readme",
   "devDependencies": {
     "css-loader": "^3.6.0",
     "html-webpack-plugin": "^4.3.0",
@@ -27,7 +23,12 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   },
-  "dependencies": {
-    "jquery": "^3.5.1"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ReadB/maze-game.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ReadB/maze-game/issues"
+  },
+  "homepage": "https://github.com/ReadB/maze-game#readme"
 }
