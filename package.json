@@ -5,7 +5,10 @@
   "author": "Ben Read",
   "license": "GPL-3.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "NODE_ENV=development webpack-dev-server --mode development",
+    "prebuild": "rimraf ./dist && mkdir ./dist",
+    "build": "NODE_ENV=production webpack --mode production"
   },
   "repository": {
     "type": "git",
