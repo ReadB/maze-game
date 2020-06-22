@@ -13,5 +13,10 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({ 'title': 'Maze Game' })
-    ]
+    ],
+    module: {
+        rules: [
+            { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+        ],
+    },
 };
