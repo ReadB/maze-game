@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import Menu from './gui/Menu';
+import Game from './Game';
 
 Menu.collection['main-menu'].show();
 
@@ -29,3 +30,7 @@ $('#config-input').on("change", () => {
 })
 
 require('./scene');
+
+let game = new Game();
+
+export { game };

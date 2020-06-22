@@ -1,11 +1,12 @@
 import { WebGLRenderer, PerspectiveCamera, Scene, Vector3 } from 'three';
 import $ from 'jquery';
+import { game } from './index'
 
 const scene = new Scene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 
-camera.position.set(0, 20, 0);
+camera.position.set(0, 10, 0);
 camera.lookAt(new Vector3(0, 0, 0));
 
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -13,6 +14,7 @@ renderer.setClearColor(0x0E1413, 1);
 
 const onAnimationFrameHandler = () => {
     renderer.render(scene, camera);
+    game.update()
     window.requestAnimationFrame(onAnimationFrameHandler);
 }
 window.requestAnimationFrame(onAnimationFrameHandler);
