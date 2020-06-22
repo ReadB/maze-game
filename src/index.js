@@ -27,3 +27,5 @@ $('#config-input').on("change", () => {
 
     reader.readAsText(file)
 })
+
+require('./scene');

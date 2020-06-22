@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import Menu from '..'
 
-$('body').append('<input type="file" style="visibility: hidden;" id="config-input">')
+$('body').append('<input type="file" style="visibility: hidden; display:none;" id="config-input">')
 
 const config_input = () => {
 	$('#config-input').trigger("click");
