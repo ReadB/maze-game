@@ -14,5 +14,12 @@
   "bugs": {
     "url": "https://github.com/ReadB/maze-game/issues"
   },
-  "homepage": "https://github.com/ReadB/maze-game#readme"
+  "homepage": "https://github.com/ReadB/maze-game#readme",
+  "devDependencies": {
+    "html-webpack-plugin": "^4.3.0",
+    "rimraf": "^3.0.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
 }
