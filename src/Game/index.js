@@ -4,6 +4,7 @@ import Player from './entities/Player';
 
 export default class Game {
     constructor(config) {
+        this.inPlay = false;
         this.maze = new Maze();
         scene.add(this.maze.mesh)
 
@@ -24,7 +25,8 @@ export default class Game {
         });
     }
 
-    update() {
+    update(timestamp) {
+        if (!this.inPlay) return;
         if (this.player.changedRoom) {
             this.maze.mesh.remove(this.player.room.mesh);
             this.player.room = this.player.newRoom;
@@ -33,5 +35,6 @@ export default class Game {
             this.maze.mesh.add(this.player.room.mesh);
             this.player.changedRoom = false;
         }
+        this.player.room.update(timestamp)
     }
 }

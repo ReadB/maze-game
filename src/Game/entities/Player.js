@@ -25,6 +25,10 @@ export default class Player {
         this.mesh.position.setX(this.room.start.x)
         this.mesh.position.setZ(this.room.start.y)
 
+        this.coins = 0;
+        this.wealth = 0;
+        this.score = 0;
+
     }
 
     onRoomChange(dir) {
@@ -38,7 +42,10 @@ export default class Player {
     }
 
     onMove() {
-
+        let entity = this.room.removeEntity(this.mesh.position.x, this.mesh.position.z);
+        if (entity) {
+            entity.updatePlayer(this);
+        }
     }
 
     getCell() {

@@ -1,6 +1,7 @@
 const FLAGS = {
     N: 0x1, S: 0x2, E: 0x4, W: 0x8,
     NR: 0x10, SR: 0x20, ER: 0x40, WR: 0x80,
+    COIN: 0x100
 }
 
 const OPPOSITE_DIRECTION = {
@@ -17,4 +18,9 @@ const OPPOSITE_DIRECTION = {
 
 const array2d = (w, h, fill) => Array.from(Array(h), () => new Array(w).fill(fill));
 
-export { FLAGS, OPPOSITE_DIRECTION, array2d }
+const randInt = (max = 2) => ~~(Math.random() * max);
+
+export { 
+    FLAGS, OPPOSITE_DIRECTION, 
+    array2d, randInt 
+}

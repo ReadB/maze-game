@@ -9,6 +9,13 @@ const emptyRoomGrid = () => [
     [FLAGS.N | FLAGS.E, FLAGS.N | FLAGS.E | FLAGS.W, FLAGS.N | FLAGS.W]
 ]
 
+const RoomGrid = () => {
+    let grid = emptyRoomGrid();
+
+    grid[0][0] |= FLAGS.COIN
+    return grid;
+}
+
 /**
  * Test Maze: 2*2 rooms
  */
@@ -31,7 +38,7 @@ export default class Maze {
             for (let [x, cell] of row.entries()) {
                 this.rooms[y][x] = new Room({
                     w: this.room_size, h: this.room_size,
-                    cell, grid: emptyRoomGrid(),
+                    cell, grid: RoomGrid(),
                     start: { x: 1, y: 1 }
                 });
             }

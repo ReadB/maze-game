@@ -12,9 +12,9 @@ camera.lookAt(new Vector3(0, 0, 0));
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setClearColor(0x0E1413, 1);
 
-const onAnimationFrameHandler = () => {
+const onAnimationFrameHandler = (timestamp) => {
     renderer.render(scene, camera);
-    game.update()
+    game.update(timestamp);
     window.requestAnimationFrame(onAnimationFrameHandler);
 }
 window.requestAnimationFrame(onAnimationFrameHandler);

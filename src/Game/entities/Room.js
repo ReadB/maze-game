@@ -1,12 +1,14 @@
 import { Group } from 'three';
-import { FLAGS } from '../../utils';
+import { FLAGS, array2d } from '../../utils';
 import { SWall, EWall } from './Walls.js';
 import { Floor } from './Floor.js';
+import { Coin } from './Coin.js';
 
 export default class Room {
     constructor({ w, h, grid, start, cell }) {
         this.mesh = new Group()
         this.start = start;
+        this.entities = array2d(w, h, 0);
 
         if ((cell & FLAGS.N) != 0) grid[0][(w - 1) / 2] |= FLAGS.NR;
         if ((cell & FLAGS.E) != 0) grid[(h - 1) / 2][w - 1] |= FLAGS.ER;
@@ -24,6 +26,9 @@ export default class Room {
                 if (y == 0 && (cell & FLAGS.NR) == 0) this.addObject(SWall, x, -1);  // TOP WALL
                 if (!((cell & FLAGS.E) != 0) && (cell & FLAGS.ER) == 0) this.addObject(EWall, x, y);
                 if (!((cell & FLAGS.S) != 0) && (cell & FLAGS.SR) == 0) this.addObject(SWall, x, y);
+
+                if ((cell & FLAGS.COIN) != 0) this.entities[y][x] = this.addObject(Coin, x, y);
+
                 this.addObject(Floor, x, y)
             }
         }
@@ -34,6 +39,21 @@ export default class Room {
         this.mesh.add(o.mesh);
         o.mesh.position.set(x, 0, y);
         return o;
+    }
+
+    removeEntity(x, y) {
+        this.mesh.remove(this.entities[y][x].mesh);
+        let e = this.entities[y][x];
+        this.entities[y][x] = 0;
+        return e;
+    }
+
+    update(timeStamp) {
+        for (let [y, row] of this.entities.entries()) {
+            for (let [x, cell] of row.entries()) {
+                cell && cell.update(timeStamp);
+            }
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import './menu.css';
+import { game } from '../../index';
 
 $('body').append(`<div id="menu"></div>`);
 
@@ -10,6 +11,7 @@ export default class Menu {
 		}
 	}
 	static hide() {
+		game.inPlay = true;
 		$(`#menu`)[0].style.visibility = "hidden";
 		Menu.hideAll();
 	}
@@ -31,6 +33,7 @@ export default class Menu {
 	}
 	show() {
 		Menu.hideAll();
+		game.inPlay = false;
 		$(`#${this.id}`)[0].style.visibility = "visible";
 	}
 }
