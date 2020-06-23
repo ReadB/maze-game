@@ -25,7 +25,10 @@ export default class Player {
         this.mesh.position.setX(this.room.start.x)
         this.mesh.position.setZ(this.room.start.y)
 
+        this.inInteraction = false;
+        
         this.coins = 0;
+        this.threats = 0;
         this.wealth = 0;
         this.score = 0;
 

@@ -23,6 +23,8 @@ export class Threat {
         this.group.position.set(0.5, 0.5, -0.5);
         this.mesh.add(this.group);
 
+        this.correctAction = 'club';
+
     }
 
     update(timestamp) {
@@ -32,8 +34,54 @@ export class Threat {
         this.group.rotation.z = timestamp / (rotSpeed * -rotDir);
     }
 
-    updatePlayer(player) {
-        
+    async updatePlayer(player) {
+        console.group('Threat: updatePlayer');
+        player.inInteraction = true;
+        await this.startInteraction()
+            .then((msg) => {
+                console.log('Won interaction:', msg)                
+                player.threats++;
+                player.score += (300 + this.randInt100);
+            })
+            .catch((msg) => {
+                console.log('Lost interaction:', msg)
+                player.threats++;
+                player.score -= (this.randInt100);
+            });
+
+        console.log('** Score ** :', player.score);
+        console.log('Threats eliminated:', player.threats);
+        console.groupEnd();
+        player.inInteraction = false;
+
+    }
+
+    startInteraction() {
+        return new Promise((resolve, reject) => {
+            let actions = ['club', 'disarm', 'run'];
+            let inputMessage = 'Type a valid action from the list and press OK. \n'
+                + 'Press cancel or type run to run away. \n'
+                + 'Actions: ' + actions.join(', ');
+            let input = prompt(inputMessage);
+            while (!input || !actions.includes(input.toLowerCase())) {
+                let err = null;
+                if (input == null) input = 'run';
+                if (!actions.includes(input.toLowerCase())) err = 'Invalid action';
+                if (input == '') err = 'Input cannot be empty';
+                if (err) input = prompt('ERROR: ' + err + '\n' + inputMessage);
+            }
+
+            if (input == 'run') {
+                let outputMessage = 'User ran away';
+                if (Math.random() < 0.1) return resolve(outputMessage);
+                return reject(outputMessage);
+            }
+            if (input == this.correctAction) {
+                let outputMessage = `Correct action: ${input}`;
+                return resolve(outputMessage);
+            }
+            reject(`Wrong action: ${input}`);
+        })
     }
 
 }

@@ -17,6 +17,9 @@ export default class Game {
                 Up: 38, Left: 37, Down: 40, Right: 39
             }
 
+            if (!this.inPlay) return;
+            if (this.player.inInteraction) return;
+
             if (c == k.W || c == k.Up) this.player.moveUp();
             if (c == k.A || c == k.Left) this.player.moveLeft();
             if (c == k.S || c == k.Down) this.player.moveDown();
@@ -27,6 +30,7 @@ export default class Game {
 
     update(timestamp) {
         if (!this.inPlay) return;
+        if (this.player.inInteraction) return;
         if (this.player.changedRoom) {
             this.maze.mesh.remove(this.player.room.mesh);
             this.player.room = this.player.newRoom;
