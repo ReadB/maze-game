@@ -1,6 +1,8 @@
 import { Group, BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
 import { LineSegments, EdgesGeometry, LineBasicMaterial } from 'three';
 import { FLAGS, OPPOSITE_DIRECTION } from '../../utils';
+import translations from '../../translations/en';
+const m = translations.Player;
 
 const meshMaterial = new MeshBasicMaterial({ color: 0x1982C4 });
 const lineMaterial = new LineBasicMaterial({ color: 0x6A4C93 });
@@ -26,7 +28,7 @@ export default class Player {
         this.mesh.position.setZ(this.room.start.y)
 
         this.inInteraction = false;
-        
+
         this.coins = 0;
         this.threats = 0;
         this.wealth = 0;
@@ -35,6 +37,11 @@ export default class Player {
     }
 
     onRoomChange(dir) {
+        if (this.room.hasThreat()) return console.log(m.onRoomChange.hasThreat);
+        if (dir == FLAGS.NR) this.currentRoomLocation.y -= 1;
+        if (dir == FLAGS.SR) this.currentRoomLocation.y += 1;
+        if (dir == FLAGS.ER) this.currentRoomLocation.x += 1;
+        if (dir == FLAGS.WR) this.currentRoomLocation.x -= 1;
         this.newRoom = this.maze.rooms[this.currentRoomLocation.y][this.currentRoomLocation.x];
         this.changedRoom = true;
         for (let [y, row] of this.newRoom.grid.entries()) {
@@ -56,41 +63,25 @@ export default class Player {
     }
 
     moveDown() {
-        if (((this.getCell() & FLAGS.SR) != 0)) {
-            this.currentRoomLocation.y += 1
-            this.onRoomChange(FLAGS.SR);
-            return;
-        }
+        if (((this.getCell() & FLAGS.SR) != 0)) return this.onRoomChange(FLAGS.SR);
         if (!((this.getCell() & FLAGS.S) != 0)) return;
         this.mesh.position.setZ(this.mesh.position.z + 1);
         this.onMove();
     }
     moveUp() {
-        if (((this.getCell() & FLAGS.NR) != 0)) {
-            this.currentRoomLocation.y -= 1
-            this.onRoomChange(FLAGS.NR);
-            return;
-        }
+        if (((this.getCell() & FLAGS.NR) != 0)) return this.onRoomChange(FLAGS.NR);
         if (!((this.getCell() & FLAGS.N) != 0)) return;
         this.mesh.position.setZ(this.mesh.position.z - 1);
         this.onMove();
     }
     moveRight() {
-        if (((this.getCell() & FLAGS.ER) != 0)) {
-            this.currentRoomLocation.x += 1
-            this.onRoomChange(FLAGS.ER);
-            return;
-        }
+        if (((this.getCell() & FLAGS.ER) != 0)) return this.onRoomChange(FLAGS.ER);
         if (!((this.getCell() & FLAGS.E) != 0)) return;
         this.mesh.position.setX(this.mesh.position.x + 1);
         this.onMove();
     }
     moveLeft() {
-        if (((this.getCell() & FLAGS.WR) != 0)) {
-            this.currentRoomLocation.x -= 1
-            this.onRoomChange(FLAGS.WR);
-            return;
-        }
+        if (((this.getCell() & FLAGS.WR) != 0)) return this.onRoomChange(FLAGS.WR);
         if (!((this.getCell() & FLAGS.W) != 0)) return;
         this.mesh.position.setX(this.mesh.position.x - 1);
         this.onMove();

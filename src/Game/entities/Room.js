@@ -58,4 +58,14 @@ export default class Room {
         }
     }
 
+    hasThreat() {
+        let boolean = false;
+        for (let [y, row] of this.entities.entries()) {
+            for (let [x, entity] of row.entries()) {
+                if (entity instanceof Threat) boolean = true;
+            }
+        }
+        return boolean;
+    }
+
 }
