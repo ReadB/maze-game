@@ -3,6 +3,7 @@ import { FLAGS, array2d } from '../../utils';
 import { SWall, EWall } from './Walls.js';
 import { Floor } from './Floor.js';
 import { Coin } from './Coin.js';
+import { Threat } from './Threat.js';
 
 export default class Room {
     constructor({ w, h, grid, start, cell }) {
@@ -28,6 +29,7 @@ export default class Room {
                 if (!((cell & FLAGS.S) != 0) && (cell & FLAGS.SR) == 0) this.addObject(SWall, x, y);
 
                 if ((cell & FLAGS.COIN) != 0) this.entities[y][x] = this.addObject(Coin, x, y);
+                if ((cell & FLAGS.THREAT) != 0) this.entities[y][x] = this.addObject(Threat, x, y);
 
                 this.addObject(Floor, x, y)
             }
