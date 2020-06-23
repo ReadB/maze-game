@@ -32,6 +32,7 @@ export class Coin {
         player.coins++;
         player.wealth++;
         player.score += (100 + this.randInt);
+        player.updateUI();
 
         console.groupCollapsed('Coin: updatePlayer');
         console.log('** Score ** :', player.score);

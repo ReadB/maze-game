@@ -1,6 +1,7 @@
 import { Group, BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
 import { LineSegments, EdgesGeometry, LineBasicMaterial } from 'three';
 import { FLAGS, OPPOSITE_DIRECTION } from '../../utils';
+import UI from '../../gui/UI';
 import translations from '../../translations/en';
 const m = translations.Player;
 
@@ -50,12 +51,19 @@ export default class Player {
             }
         }
     }
-
+    updateUI(){
+        UI.collection['top-ui'].update(this);
+    }
     onMove() {
         let entity = this.room.removeEntity(this.mesh.position.x, this.mesh.position.z);
         if (entity) {
             entity.updatePlayer(this);
         }
+    }
+
+    dropCoin() {
+        // TODO
+        console.log('dropCoin');
     }
 
     getCell() {

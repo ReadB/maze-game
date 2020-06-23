@@ -1,6 +1,8 @@
 import { WebGLRenderer, PerspectiveCamera, Scene, Vector3 } from 'three';
 import $ from 'jquery';
 import { game } from './index'
+import UI from './gui/UI';
+const top_ui = UI.collection['top-ui'];
 
 const scene = new Scene();
 const camera = new PerspectiveCamera();
@@ -15,6 +17,12 @@ renderer.setClearColor(0x0E1413, 1);
 const onAnimationFrameHandler = (timestamp) => {
     renderer.render(scene, camera);
     game.update(timestamp);
+
+    if (game.inPlay && !top_ui.visible) {
+        game.player.updateUI();
+        UI.collection['top-ui'].show();
+    };
+
     window.requestAnimationFrame(onAnimationFrameHandler);
 }
 window.requestAnimationFrame(onAnimationFrameHandler);

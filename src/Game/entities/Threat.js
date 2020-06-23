@@ -53,6 +53,7 @@ export class Threat {
         console.log('Threats eliminated:', player.threats);
         console.groupEnd();
         player.inInteraction = false;
+        player.updateUI();
 
     }
 
