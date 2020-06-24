@@ -1,6 +1,6 @@
 import { Group } from 'three';
 
-import { FLAGS, array2d } from '../../utils';
+import { FLAGS, array2d, randInt } from '../../utils';
 import Room from './Room';
 
 const emptyRoomGrid = () => [
@@ -42,6 +42,33 @@ export default class Maze {
                     cell, grid: RoomGrid(),
                     start: { x: 1, y: 1 }
                 });
+            }
+        }
+
+        /**
+         * Set exit on random edge
+         */
+        let edge = randInt(4);
+        let maze_x = randInt(this.maze_size);
+        let maze_y = randInt(this.maze_size);
+        let exit_flag = null;
+        // TOP
+        if (edge == 0) { maze_y = 0; exit_flag = FLAGS.N; }
+        // BOTTOM
+        if (edge == 1) { maze_y = this.maze_size-1; exit_flag = FLAGS.S; }
+        // LEFT
+        if (edge == 2) { maze_x = 0; exit_flag = FLAGS.W; }
+        // RIGHT
+        if (edge == 3) { maze_x = this.maze_size-1; exit_flag = FLAGS.E; }
+
+        this.rooms[maze_y][maze_x].setExit(exit_flag);
+       
+        /**
+         * Draw rooms after setting exit
+         */
+        for (let [y, row] of this.rooms.entries()) {
+            for (let [x, room] of row.entries()) {
+                room.draw();
             }
         }
 

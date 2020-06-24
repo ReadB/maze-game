@@ -7,7 +7,9 @@ import { Threat } from './Threat.js';
 
 export default class Room {
     constructor({ w, h, grid, start, cell }) {
-        this.mesh = new Group()
+        this.w = w; 
+        this.h = h;
+        this.mesh = new Group();
         this.start = start;
         this.entities = array2d(w, h, 0);
         this.drops = array2d(w, h, 0);
@@ -18,11 +20,11 @@ export default class Room {
         if ((cell & FLAGS.W) != 0) grid[(h - 1) / 2][0] |= FLAGS.WR;
 
         this.grid = grid;
-        this.draw(this.grid);
+        // this.draw(this.grid);
     }
 
-    draw(grid) {
-        for (let [y, row] of grid.entries()) {
+    draw() {
+        for (let [y, row] of this.grid.entries()) {
             for (let [x, cell] of row.entries()) {
                 if (x == 0 && (cell & FLAGS.WR) == 0) this.addObject(EWall, -1, y); // LEFT WALL
                 if (y == 0 && (cell & FLAGS.NR) == 0) this.addObject(SWall, x, -1);  // TOP WALL
@@ -80,6 +82,13 @@ export default class Room {
             }
         }
         return boolean;
+    }
+
+    setExit(flag) {
+        if ((flag & FLAGS.N) != 0) this.grid[0][(this.w - 1) / 2] |= FLAGS.N_EXIT | FLAGS.NR;
+        if ((flag & FLAGS.E) != 0) this.grid[(this.h - 1) / 2][this.w - 1] |= FLAGS.E_EXIT | FLAGS.ER;
+        if ((flag & FLAGS.S) != 0) this.grid[this.h - 1][(this.w - 1) / 2] |= FLAGS.S_EXIT | FLAGS.SR;
+        if ((flag & FLAGS.W) != 0) this.grid[(this.h - 1) / 2][0] |= FLAGS.W_EXIT | FLAGS.WR;
     }
 
 }

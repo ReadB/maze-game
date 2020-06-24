@@ -2,6 +2,7 @@ import { Group, BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
 import { LineSegments, EdgesGeometry, LineBasicMaterial } from 'three';
 import { FLAGS, OPPOSITE_DIRECTION } from '../../utils';
 import { Coin } from './Coin.js';
+import { game } from '../../index';
 
 import UI from '../../gui/UI';
 import translations from '../../translations/en';
@@ -39,8 +40,22 @@ export default class Player {
 
     }
 
+    onExit() {
+        game.inPlay = false;
+        console.log('Player.onExit()');
+        alert('You won!');
+    }
+
     onRoomChange(dir) {
         if (this.room.hasThreat()) return console.log(m.onRoomChange.hasThreat);
+        if (
+            ((this.getCell() & FLAGS.N_EXIT) != 0) ||
+            ((this.getCell() & FLAGS.S_EXIT) != 0) ||
+            ((this.getCell() & FLAGS.E_EXIT) != 0) ||
+            ((this.getCell() & FLAGS.W_EXIT) != 0)
+        ) {
+            return this.onExit();
+        }
         if (dir == FLAGS.NR) this.currentRoomLocation.y -= 1;
         if (dir == FLAGS.SR) this.currentRoomLocation.y += 1;
         if (dir == FLAGS.ER) this.currentRoomLocation.x += 1;
@@ -53,7 +68,7 @@ export default class Player {
             }
         }
     }
-    updateUI(){
+    updateUI() {
         UI.collection['top-ui'].update(this);
     }
     onMove() {
