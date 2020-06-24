@@ -10,6 +10,7 @@ export default class Room {
         this.mesh = new Group()
         this.start = start;
         this.entities = array2d(w, h, 0);
+        this.drops = array2d(w, h, 0);
 
         if ((cell & FLAGS.N) != 0) grid[0][(w - 1) / 2] |= FLAGS.NR;
         if ((cell & FLAGS.E) != 0) grid[(h - 1) / 2][w - 1] |= FLAGS.ER;
@@ -28,8 +29,8 @@ export default class Room {
                 if (!((cell & FLAGS.E) != 0) && (cell & FLAGS.ER) == 0) this.addObject(EWall, x, y);
                 if (!((cell & FLAGS.S) != 0) && (cell & FLAGS.SR) == 0) this.addObject(SWall, x, y);
 
-                if ((cell & FLAGS.COIN) != 0) this.entities[y][x] = this.addObject(Coin, x, y);
-                if ((cell & FLAGS.THREAT) != 0) this.entities[y][x] = this.addObject(Threat, x, y);
+                if ((cell & FLAGS.COIN) != 0) this.addEntity(Coin, x, y);
+                if ((cell & FLAGS.THREAT) != 0) this.addEntity(Threat, x, y);
 
                 this.addObject(Floor, x, y)
             }
@@ -43,10 +44,23 @@ export default class Room {
         return o;
     }
 
+    addEntity(Type, x, y) {
+        this.entities[y][x] = this.addObject(Type, x, y);
+    }
+    addDrop(Type, x, y) {
+        this.drops[y][x] = this.addObject(Type, x, y);
+        return this.drops[y][x];
+    }
     removeEntity(x, y) {
         this.mesh.remove(this.entities[y][x].mesh);
         let e = this.entities[y][x];
         this.entities[y][x] = 0;
+        return e;
+    }
+    removeDrop(x, y) {
+        this.mesh.remove(this.drops[y][x].mesh);
+        let e = this.drops[y][x];
+        this.drops[y][x] = 0;
         return e;
     }
 

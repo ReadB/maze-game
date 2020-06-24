@@ -1,6 +1,8 @@
 import { Group, BoxGeometry, MeshBasicMaterial, Mesh } from 'three';
 import { LineSegments, EdgesGeometry, LineBasicMaterial } from 'three';
 import { FLAGS, OPPOSITE_DIRECTION } from '../../utils';
+import { Coin } from './Coin.js';
+
 import UI from '../../gui/UI';
 import translations from '../../translations/en';
 const m = translations.Player;
@@ -62,8 +64,11 @@ export default class Player {
     }
 
     dropCoin() {
-        // TODO
-        console.log('dropCoin');
+        if (!this.coins) return;
+        this.room.addDrop(Coin, this.mesh.position.x, this.mesh.position.z);
+        this.coins--;
+        this.wealth--;
+        this.updateUI();
     }
 
     getCell() {

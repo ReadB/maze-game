@@ -18,19 +18,19 @@ export class Coin {
         const cube = new Mesh(geometry, meshMaterial);
         const line = new LineSegments(new EdgesGeometry(geometry), lineMaterial)
 
-        this.coin = new Group()
-        this.coin.add(cube, line)
-        this.coin.position.set(0.5, 0.5, -0.5)
-        this.mesh.add(this.coin);
+        this.group = new Group()
+        this.group.add(cube, line)
+        this.group.position.set(0.5, 0.5, -0.5)
+        this.mesh.add(this.group);
 
     }
 
     update(timestamp) {
-        this.coin.rotation.y = timestamp / (this.rotSpeed * this.rotDir);
+        this.group.rotation.y = timestamp / (this.rotSpeed * this.rotDir);
     }
     updatePlayer(player) {
         player.coins++;
-        player.wealth++;
+        player.wealth += (this.randInt);
         player.score += (100 + this.randInt);
         player.updateUI();
 
