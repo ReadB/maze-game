@@ -5,7 +5,7 @@ import Player from './entities/Player';
 export default class Game {
     constructor(config) {
         this.inPlay = false;
-        this.maze = new Maze();
+        this.maze = new Maze(config);
         scene.add(this.maze.mesh)
 
         this.player = new Player(this.maze)
@@ -26,6 +26,10 @@ export default class Game {
             if (c == k.D || c == k.Right) this.player.moveRight();
 
         });
+    }
+
+    destroy() {
+        scene.remove(this.maze.mesh);
     }
 
     update(timestamp) {

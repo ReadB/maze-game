@@ -1,14 +1,25 @@
 import $ from 'jquery';
 import Menu from './gui/Menu';
 import Game from './Game';
-let game = new Game();
+let game = null;
 
-Menu.collection['main-menu'].show();
+const defaultConfig = {
+    "maze_seed" : undefined,
+    "room_seed" : undefined,
+}
 
-/**
- * Simulate maze loading
- */
-setTimeout(() => { $('#main-menu-start-button').prop('disabled', false); }, 2000)
+const initGame = async (config) => {
+    game && game.destroy();
+    game = new Game(config);
+    
+    Menu.collection['main-menu'].show();
+
+    /**
+     * Simulate maze loading
+     */
+    setTimeout(() => { $('#main-menu-start-button').prop('disabled', false); }, 2000)
+
+}
 
 $('#config-input').on("change", () => {
     let file = $('#config-input').prop('files')[0];
@@ -20,8 +31,13 @@ $('#config-input').on("change", () => {
     reader.addEventListener('load', (e) => {
         try {
             let config = JSON.parse(e.target.result);
+            /**
+             * Validate config
+             */
+                        
+            $('#settings-menu-footer').html(`Config loaded: ${file.name}`);
+            initGame(config)
             console.log(config)
-            $('#settings-menu-footer').html(`Config loaded: ${file.name}`)
         } catch (err) {
             return alert('Error loading config: Invalid JSON')
         }
@@ -30,6 +46,7 @@ $('#config-input').on("change", () => {
     reader.readAsText(file)
 })
 
+initGame(defaultConfig);
 require('./scene');
 
-export { game };
+export { game, initGame };

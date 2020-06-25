@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "jquery": "^3.5.1",
+    "seedrandom": "^3.0.5",
     "three": "^0.117.1"
   },
   "devDependencies": {
