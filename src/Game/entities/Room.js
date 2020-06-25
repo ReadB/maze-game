@@ -1,13 +1,13 @@
 import { Group } from 'three';
-import { FLAGS, array2d } from '../../utils';
+import { FLAGS, array2d, randInt } from '../../utils';
 import { SWall, EWall } from './Walls.js';
 import { Floor } from './Floor.js';
-import { Coin } from './Coin.js';
-import { Threat } from './Threat.js';
+import { Treasure, Silver, Gold } from './Treasure.js';
+import { Threat, Troll, Bomb, } from './Threat.js';
 
 export default class Room {
     constructor({ w, h, grid, start, cell }) {
-        this.w = w; 
+        this.w = w;
         this.h = h;
         this.mesh = new Group();
         this.start = start;
@@ -31,8 +31,8 @@ export default class Room {
                 if (!((cell & FLAGS.E) != 0) && (cell & FLAGS.ER) == 0) this.addObject(EWall, x, y);
                 if (!((cell & FLAGS.S) != 0) && (cell & FLAGS.SR) == 0) this.addObject(SWall, x, y);
 
-                if ((cell & FLAGS.COIN) != 0) this.addEntity(Coin, x, y);
-                if ((cell & FLAGS.THREAT) != 0) this.addEntity(Threat, x, y);
+                if ((cell & FLAGS.TREASURE) != 0) this.addEntity(randInt() ? Silver : Gold, x, y);
+                if ((cell & FLAGS.THREAT) != 0) this.addEntity(randInt() ? Troll : Bomb, x, y);
 
                 this.addObject(Floor, x, y)
             }

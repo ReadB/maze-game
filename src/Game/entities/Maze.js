@@ -12,7 +12,7 @@ const emptyRoomGrid = () => [
 const RoomGrid = () => {
     let grid = emptyRoomGrid();
 
-    grid[0][0] |= FLAGS.COIN;
+    grid[0][0] |= FLAGS.TREASURE;
     grid[2][0] |= FLAGS.THREAT;
     return grid;
 }

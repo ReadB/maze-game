@@ -4,26 +4,30 @@ import { randInt } from '../../utils';
 
 const thickness = 0.2;
 
-const meshMaterial = new MeshBasicMaterial({ color: 0xD64550 });
 const lineMaterial = new LineBasicMaterial({ color: 0x000000 });
 const geometry = new BoxGeometry(thickness, thickness, thickness);
 
 export class Threat {
-    constructor() {
-        this.mesh = new Group();
-        this.randInt100 = randInt(100);
+    constructor(name, damage, correctAction, color = 0xD64550,) {
         this.randInt = randInt();
-        this.rotSpeed = 1000 - (this.randInt)
+        this.randInt100 = randInt(100);
+
+        this.name = name || 'Threat';
+        this.correctAction = correctAction || 'club';
+        this.damage = damage || this.randInt100;
+        this.rotSpeed = 1200 - (this.damage);
+
+        this.mesh = new Group();
+
+        const meshMaterial = new MeshBasicMaterial({ color });
 
         const cube = new Mesh(geometry, meshMaterial);
-        const line = new LineSegments(new EdgesGeometry(geometry), lineMaterial)
+        const line = new LineSegments(new EdgesGeometry(geometry), lineMaterial);
 
         this.group = new Group();
         this.group.add(cube, line);
         this.group.position.set(0.5, 0.5, -0.5);
         this.mesh.add(this.group);
-
-        this.correctAction = 'club';
 
     }
 
@@ -39,14 +43,14 @@ export class Threat {
         player.inInteraction = true;
         await this.startInteraction()
             .then((msg) => {
-                console.log('Won interaction:', msg)                
+                console.log('Won interaction:', msg)
                 player.threats++;
-                player.score += (300 + this.randInt100);
+                player.score += (300 + this.damage);
             })
             .catch((msg) => {
                 console.log('Lost interaction:', msg)
                 player.threats++;
-                player.score -= (this.randInt100);
+                player.score -= (this.damage);
             });
 
         console.log('** Score ** :', player.score);
@@ -60,7 +64,8 @@ export class Threat {
     startInteraction() {
         return new Promise((resolve, reject) => {
             let actions = ['club', 'disarm', 'run'];
-            let inputMessage = 'Type a valid action from the list and press OK. \n'
+            let inputMessage = `** Interaction with ${this.name} ** \n`
+                + 'Type a valid action from the list and press OK. \n'
                 + 'Press cancel or type run to run away. \n'
                 + 'Actions: ' + actions.join(', ');
             let input = prompt(inputMessage);
@@ -85,4 +90,16 @@ export class Threat {
         })
     }
 
+}
+
+export class Troll extends Threat {
+    constructor() {
+        super('Troll', 300 + randInt(100), 'club', 0x529c76)
+    }
+}
+
+export class Bomb extends Threat {
+    constructor() {
+        super('Bomb', 200 + randInt(50), 'disarm', 0xD64550)
+    }
 }
