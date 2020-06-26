@@ -1,5 +1,6 @@
 import { Group } from 'three';
 import seedrandom from 'seedrandom';
+import { camera } from '../../scene';
 import {
     FLAGS, array2d, randInt,
     PRIM_mark_IN, PRIM_step
@@ -23,8 +24,8 @@ const RoomGrid = () => {
 export default class Maze {
     constructor(config = {}) {
         this.mesh = new Group()
-        this.maze_size = 2;
-        this.room_size = 3;
+        this.maze_size = config.maze_size || 2;
+        this.room_size = config.room_size || 3;
         this.seedrandom = seedrandom(config.maze_seed);
         this.room_seedrandom = config.room_seed ? seedrandom(config.room_seed) : seedrandom(config.maze_seed);
         this.startRoomLocation = {
@@ -68,7 +69,10 @@ export default class Maze {
         }
 
         this.mesh.add(this.rooms[this.startRoomLocation.y][this.startRoomLocation.x].mesh);
-        this.mesh.position.set(-(3 / 2), 0, -(3 / 2) + 1);
+        // Move room to centre of scene
+        this.mesh.position.set(-(this.room_size / 2), 0, -(this.room_size / 2) + 1);
+        camera.position.set(0, this.room_size + 5 + (0.25 * this.room_size), 0);
+
 
     }
 

@@ -1,4 +1,6 @@
 {
     "maze_seed": "string-one",
-    "room_seed": "string-two"
+    "maze_size": 4,
+    "room_seed": "string-two",
+    "room_size" : 5
 }

@@ -32,6 +32,19 @@ $('#config-input').on("change", () => {
             /**
              * Validate config
              */
+            
+            // Optional
+            if (config.room_size) {
+                if (!Number.isInteger(config.room_size) || !(Number(config.room_size) % 2)) {
+                    return alert('Error loading config: room_size must be an odd integer');
+                }
+            }
+            // Optional
+            if (config.maze_size) {
+                if (!Number.isInteger(config.maze_size)) {
+                    return alert('Error loading config: maze_size must be an integer');
+                }
+            }
                         
             $('#settings-menu-footer').html(`Config loaded: ${file.name}`);
             initGame(config)
