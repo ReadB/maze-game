@@ -3,22 +3,20 @@ import Menu from './gui/Menu';
 import Game from './Game';
 let game = null;
 
-const defaultConfig = {
-    "maze_seed" : undefined,
-    "room_seed" : undefined,
-}
-
-const initGame = async (config) => {
+let currentConfig;
+const initGame = async (config, replay) => {
     game && game.destroy();
+
+    const defaultConfig = {
+        "maze_seed" : Math.random().toString(36).substr(2, 5),
+        "room_seed" : Math.random().toString(36).substr(2, 5),
+    }
+    if (!config) config = defaultConfig;
+    if (replay) config = currentConfig;
+    currentConfig = config;
+
     game = new Game(config);
     
-    Menu.collection['main-menu'].show();
-
-    /**
-     * Simulate maze loading
-     */
-    setTimeout(() => { $('#main-menu-start-button').prop('disabled', false); }, 2000)
-
 }
 
 $('#config-input').on("change", () => {
@@ -46,7 +44,15 @@ $('#config-input').on("change", () => {
     reader.readAsText(file)
 })
 
-initGame(defaultConfig);
+
+initGame();
+Menu.collection['main-menu'].show();
+/**
+ * Simulate maze loading
+ */
+// setTimeout(() => { $('#main-menu-start-button').prop('disabled', false); }, 2000)
+$('#main-menu-start-button').prop('disabled', false);
+
 require('./scene');
 
 export { game, initGame };

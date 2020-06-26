@@ -1,4 +1,5 @@
 import { scene } from '../scene';
+import Menu from '../gui/Menu';
 import Maze from './entities/Maze';
 import Player from './entities/Player';
 
@@ -13,10 +14,10 @@ export default class Game {
 
         window.addEventListener("keydown", ({ keyCode: c }) => {
             let k = {
+                Esc: 27,
                 W: 87, A: 65, S: 83, D: 68,
                 Up: 38, Left: 37, Down: 40, Right: 39
             }
-
             if (!this.inPlay) return;
             if (this.player.inInteraction) return;
 
@@ -24,6 +25,8 @@ export default class Game {
             if (c == k.A || c == k.Left) this.player.moveLeft();
             if (c == k.S || c == k.Down) this.player.moveDown();
             if (c == k.D || c == k.Right) this.player.moveRight();
+            
+            if (c == k.Esc) Menu.collection['pause-menu'].show();
 
         });
     }

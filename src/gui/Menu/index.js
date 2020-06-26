@@ -35,6 +35,7 @@ export default class Menu {
 		Menu.hideAll();
 		game.inPlay = false;
 		$(`#${this.id}`)[0].style.visibility = "visible";
+		$(`#menu`)[0].style.visibility = "visible";
 	}
 }
 
@@ -42,3 +43,5 @@ Menu.collection = {};
 
 require('./menus/main');
 require('./menus/settings');
+require('./menus/end');
+require('./menus/pause');

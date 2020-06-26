@@ -47,6 +47,11 @@ canvas {
 	line-height: 100px;
 }
 
+.menu-title-short {
+	font-size: 50px;
+	/* line-height: 100px; */
+}
+
 .menu-footer {
 	font-size: 25px;
 }

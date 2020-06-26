@@ -5,6 +5,7 @@ import { Coin } from './Coin.js';
 import { game } from '../../index';
 
 import UI from '../../gui/UI';
+import Menu from '../../gui/Menu';
 import translations from '../../translations/en';
 const m = translations.Player;
 
@@ -41,13 +42,20 @@ export default class Player {
     }
 
     onExit() {
-        game.inPlay = false;
-        console.log('Player.onExit()');
-        alert('You won!');
+        if (confirm(m.onExit.confirm)) {
+            game.inPlay = false;
+            alert(
+                `Score: ${this.score} \n` +
+                `Coins: ${this.coins} \n` +
+                `Wealth: ${this.wealth} \n` +
+                `Threats: ${this.threats} \n`
+            );
+            Menu.collection['end-menu'].show();
+        }
     }
 
     onRoomChange(dir) {
-        if (this.room.hasThreat()) return console.log(m.onRoomChange.hasThreat);
+        if (this.room.hasThreat()) return alert(m.onRoomChange.hasThreat);
         if (
             ((this.getCell() & FLAGS.N_EXIT) != 0) ||
             ((this.getCell() & FLAGS.S_EXIT) != 0) ||
