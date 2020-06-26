@@ -68,11 +68,11 @@ export class Threat {
                 + 'Type a valid action from the list and press OK. \n'
                 + 'Press cancel or type run to run away. \n'
                 + 'Actions: ' + actions.join(', ');
-            let input = prompt(inputMessage);
-            while (!input || !actions.includes(input.toLowerCase())) {
+            let input = prompt(inputMessage).toLowerCase();
+            while (!input || !actions.includes(input)) {
                 let err = null;
                 if (input == null) input = 'run';
-                if (!actions.includes(input.toLowerCase())) err = 'Invalid action';
+                if (!actions.includes(input)) err = 'Invalid action';
                 if (input == '') err = 'Input cannot be empty';
                 if (err) input = prompt('ERROR: ' + err + '\n' + inputMessage);
             }
